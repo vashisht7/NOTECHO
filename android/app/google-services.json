@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "296762684572",
+    "firebase_url": "https://notecho-c7f8c.firebaseio.com",
+    "project_id": "notecho-c7f8c",
+    "storage_bucket": "notecho-c7f8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296762684572:android:eb6bc773350eaba8bfa959",
+        "android_client_info": {
+          "package_name": "com.example.notecho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296762684572-lmd9emm86bq3mqdebku9gmdnerre9kka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt2RIb844y5INzMEt7TT3VsFsYxe02CwE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296762684572-lmd9emm86bq3mqdebku9gmdnerre9kka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
