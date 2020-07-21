@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-      'notecho',
+      'NOTECHO',
      style: TextStyle(
            fontSize: 22,
            fontWeight: FontWeight.w600,

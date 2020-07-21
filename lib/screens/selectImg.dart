@@ -50,7 +50,7 @@ Future pickImage() async {
     var tempStore = await picker.getImage(source:ImageSource.gallery );
     setState(() {
       pickedImage = File(tempStore.path);
-      isImageLoaded = false;
+      isImageLoaded = true;
     });
     readText();
   }
@@ -98,6 +98,17 @@ Future pickImage() async {
               },
             ),
           ),
+          SizedBox(height: 10.0),
+        isImageLoaded
+            ? Center(
+                child: Container(
+                    height: 200.0,
+                    width: 200.0,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: FileImage(pickedImage), fit: BoxFit.cover))),
+              )
+            : Container(),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: RaisedButton(
@@ -105,6 +116,7 @@ Future pickImage() async {
                       onPressed: pickImage
                     ),
           ),
+           SizedBox(height: 10.0),
            Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: TextField(

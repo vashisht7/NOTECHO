@@ -38,7 +38,7 @@ class PlayListState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.white,
       body: playlistitems(),
       floatingActionButton: FloatingActionButton(
         onPressed:() {
@@ -59,7 +59,7 @@ class PlayListState extends State {
         return Card(
           margin: EdgeInsets.only(top:2,left: 2, right: 2, bottom: 2),
           elevation: 8,
-          color: Colors.white,
+          color: Colors.grey,
           child: ListTile(
             leading: CircleAvatar(backgroundImage: AssetImage('assets/bubble.jpeg')),
             trailing:  Icon( isPlaying ?FontAwesomeIcons.pause:FontAwesomeIcons.play,color: Colors.grey,size: 40.0,), 
