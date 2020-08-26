@@ -21,6 +21,8 @@ class _PlayingPageState extends State<PlayingPage> {
   String completeTime = "00:00";
   static bool favourited = true;
   static bool active = false;
+  File pathtofile;
+  int index;
   //static bool playing = false;
   Future _play(pathtofile) async {
     var result = await _audioPlayer.play(pathtofile.path, isLocal: true);
@@ -29,10 +31,12 @@ class _PlayingPageState extends State<PlayingPage> {
         isPlaying = true;
       });
   }
-void seekToSeconds(int second) {
-  Duration newDuration = Duration(seconds: second);
-  _audioPlayer.seek(newDuration);
-}
+
+  void seekToSeconds(int second) {
+    Duration newDuration = Duration(seconds: second);
+    _audioPlayer.seek(newDuration);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -50,7 +54,10 @@ void seekToSeconds(int second) {
         _duration = duration;
       });
     });
-    File pathtofile = File(
+    setState(() {
+      index = widget.index;
+    });
+    pathtofile = File(
         '${widget.dirr.path}/${p.basename(widget.songs[widget.index].toString()).split('.')[0]}.mp3');
     _play(pathtofile);
   }
@@ -66,6 +73,7 @@ void seekToSeconds(int second) {
     if (currentTime == completeTime) {
       isPlaying = false;
     }
+    //index = widget.index;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -75,7 +83,6 @@ void seekToSeconds(int second) {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             // Add one stop for each color. Stops should increase from 0 to 1
-
             colors: [Color(0xFFFFFFFF), Color(0xFFFF9800)],
           ),
         ),
@@ -161,9 +168,21 @@ void seekToSeconds(int second) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Icon(Icons.shuffle),
-                    Icon(
-                      Icons.skip_previous,
-                      size: 50.0,
+                    GestureDetector(
+                      onTap: () {
+                        if (index - 1 >= 0) {
+                          setState(() {
+                            index = index - 1;
+                          });
+                          pathtofile = File(
+                              '${widget.dirr.path}/${p.basename(widget.songs[index].toString()).split('.')[0]}.mp3');
+                          _play(pathtofile);
+                        }
+                      },
+                      child: Icon(
+                        Icons.skip_previous,
+                        size: 50.0,
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -188,9 +207,22 @@ void seekToSeconds(int second) {
                         size: 90.0,
                       ),
                     ),
-                    Icon(
-                      Icons.skip_next,
-                      size: 50.0,
+                    GestureDetector(
+                      onTap: () {
+                        if (index + 1 < widget.songs.length) {
+                          setState(() {
+                            index = index + 1;
+                          });
+                          print(index);
+                          pathtofile = File(
+                              '${widget.dirr.path}/${p.basename(widget.songs[index].toString()).split('.')[0]}.mp3');
+                          _play(pathtofile);
+                        }
+                      },
+                      child: Icon(
+                        Icons.skip_next,
+                        size: 50.0,
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {

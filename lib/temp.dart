@@ -94,3 +94,35 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 }
+
+
+// Card(
+//             margin: EdgeInsets.only(top: 2, left: 2, right: 2, bottom: 2),
+//             elevation: 8,
+//             color: Colors.grey,
+//             child: ListTile(
+//               leading: CircleAvatar(
+//                   backgroundImage: AssetImage('assets/bubble.jpeg')),
+//               trailing: Icon(
+//                 isPlaying ? FontAwesomeIcons.pause : FontAwesomeIcons.play,
+//                 color: Colors.grey,
+//                 size: 40.0,
+//               ),
+//               onTap: () async {
+//                 await Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                       builder: (context) => PlayingPage(
+//                             index: inx,
+//                             songs: songs,
+//                             dirr: dirr,
+//                           )),
+//                 );
+//               },
+//               // setState(() {
+//               //   isPlaying ? _stop() : _play(File('${dirr.path}/${p.basename(this.songs[inx].toString()).split('.')[0]}.mp3'));
+//               // });
+//               title: Text(p.basename(this.songs[inx].toString()).split('.')[0],
+//                   style: TextStyle(fontSize: 20, color: Colors.black)),
+//             ),
+//           );

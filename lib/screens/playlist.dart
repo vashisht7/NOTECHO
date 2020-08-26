@@ -16,71 +16,119 @@ class PlayListState extends State {
   bool isPlaying = false;
   //AudioPlayer audioPlayer = AudioPlayer();
   AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.MEDIA_PLAYER);
-  List songs= new List();
-  List files= new List();
-  int count =0;
+  List songs = new List();
+  List files = new List();
+  int count = 0;
   var dirr;
-  
+
   @override
-   void initState() {
+  void initState() {
     super.initState();
   }
-  getList() async{
+
+  getList() async {
     final dir = await getExternalStorageDirectory();
-    final Directory finaldir = Directory(dir.path+"/Songs");
+    final Directory finaldir = Directory(dir.path + "/Songs");
     setState(() {
-                   songs= finaldir.listSync();
-                  count = songs.length;
-                  dirr = finaldir;
-                });
-               
+      songs = finaldir.listSync();
+      count = songs.length;
+      dirr = finaldir;
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: playlistitems(),
       floatingActionButton: FloatingActionButton(
-        onPressed:() {
+        onPressed: () {
           navigateToDetail();
-        }
-        ,
+        },
         tooltip: "Add new Quote",
         child: new Icon(Icons.add),
       ),
     );
-   
   }
+
   ListView playlistitems() {
     getList();
     return ListView.builder(
-      itemCount: count,
-      itemBuilder: (BuildContext context, int inx) {
-        return Card(
-          margin: EdgeInsets.only(top:2,left: 2, right: 2, bottom: 2),
-          elevation: 8,
-          color: Colors.grey,
-          child: ListTile(
-            leading: CircleAvatar(backgroundImage: AssetImage('assets/bubble.jpeg')),
-            trailing:  Icon( isPlaying ?FontAwesomeIcons.pause:FontAwesomeIcons.play,color: Colors.grey,size: 40.0,), 
-            onTap: () async{
-              await Navigator.push(context, 
-        MaterialPageRoute(builder: (context) => PlayingPage(index: inx,songs: songs,dirr: dirr,)),
+        itemCount: count,
+        itemBuilder: (BuildContext context, int inx) {
+          return _customcard(context, inx);
+        });
+  }
+
+  void navigateToDetail() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SelectIMG()),
     );
-            },
+  }
+
+  Widget _customcard(BuildContext context, int index) {
+    return Container(
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        child: Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ListTile(
+                leading: Container(child: Image.asset('assets/bubble.jpeg',height: 100,width: 100,fit: BoxFit.fill,)),
+                // trailing: Icon(
+                //   isPlaying ? FontAwesomeIcons.pause : FontAwesomeIcons.play,
+                //   color: Colors.grey,
+                //   size: 40.0,
+                // ),
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PlayingPage(
+                              index: index,
+                              songs: songs,
+                              dirr: dirr,
+                            )),
+                  );
+                },
                 // setState(() {
                 //   isPlaying ? _stop() : _play(File('${dirr.path}/${p.basename(this.songs[inx].toString()).split('.')[0]}.mp3'));
                 // });
-          title: Text(p.basename(this.songs[inx].toString()).split('.')[0],style:TextStyle(fontSize: 20,color: Colors.black)),
+                title: Text(
+                    p.basename(this.songs[index].toString()).split('.')[0],
+                    style: TextStyle(fontSize: 20, color: Colors.black),textAlign: TextAlign.center,),
+              ),
+              //SizedBox(height: 5.0,),
+              Divider(color: Colors.black,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      child: Text('This is a description',textDirection: TextDirection.ltr,),
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PlayingPage(
+                                    index: index,
+                                    songs: songs,
+                                    dirr: dirr,
+                                  )),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
-        );
-       }
-    );
-  }
-  
-  void navigateToDetail() async {
-     await Navigator.push(context, 
-        MaterialPageRoute(builder: (context) => SelectIMG()),
+        ),
+      ),
     );
   }
 }
