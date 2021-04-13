@@ -49,8 +49,9 @@ class Note {
     }
     map['title'] = _title;
     map['description'] = _description;
-    map['audioPath'] = _audioPath;
     map['imagePath'] = _imagePath;
+    map['audioPath'] = _audioPath;
+    
     return map;
   }
 

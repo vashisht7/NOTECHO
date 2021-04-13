@@ -12,8 +12,8 @@ class DatabaseHelper {
   String colID = 'id';
   String colTitle = 'title';
   String colDescription = 'description';
-  String colImage = 'Image';
-  String colAudio = 'Audio';
+  String colImage = 'imagePath';
+  String colAudio = 'audioPath';
 
   DatabaseHelper._createInstance();
 

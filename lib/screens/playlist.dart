@@ -62,8 +62,9 @@ class PlayListState extends State {
 
   ListView playlistitems() {
     getList();
+    updateListView();
     return ListView.builder(
-        itemCount: count,
+        itemCount: notecount,
         itemBuilder: (BuildContext context, int inx) {
           return _customcard(context, inx);
         });
@@ -88,12 +89,13 @@ class PlayListState extends State {
             children: <Widget>[
               ListTile(
                 leading: Container(
-                    child: Image.asset(
-                  'assets/bubble.jpeg',
-                  height: 100,
-                  width: 100,
-                  fit: BoxFit.fill,
-                )),
+                    height: 100.0,
+                    width: 100.0,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image:
+                                FileImage(File(this.noteList[index].imagePath)),
+                            fit: BoxFit.cover))),
                 // trailing: Icon(
                 //   isPlaying ? FontAwesomeIcons.pause : FontAwesomeIcons.play,
                 //   color: Colors.grey,
@@ -105,7 +107,7 @@ class PlayListState extends State {
                     MaterialPageRoute(
                         builder: (context) => PlayingPage(
                               index: index,
-                              songs: songs,
+                              songs: noteList,
                               dirr: dirr,
                             )),
                   );
@@ -114,7 +116,7 @@ class PlayListState extends State {
                 //   isPlaying ? _stop() : _play(File('${dirr.path}/${p.basename(this.songs[inx].toString()).split('.')[0]}.mp3'));
                 // });
                 title: Text(
-                  p.basename(this.songs[index].toString()).split('.')[0],
+                  this.noteList[index].title,
                   style: TextStyle(fontSize: 20, color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
@@ -130,7 +132,7 @@ class PlayListState extends State {
                   children: [
                     GestureDetector(
                       child: Text(
-                        'This is a description',
+                        this.noteList[index].description,
                         textDirection: TextDirection.ltr,
                       ),
                       onTap: () async {
@@ -139,7 +141,7 @@ class PlayListState extends State {
                           MaterialPageRoute(
                               builder: (context) => PlayingPage(
                                     index: index,
-                                    songs: songs,
+                                    songs: noteList,
                                     dirr: dirr,
                                   )),
                         );
@@ -154,7 +156,8 @@ class PlayListState extends State {
       ),
     );
   }
-void updateListView() {
+
+  void updateListView() {
     final Future<Database> dbFuture = databaseHelper.initalizeDatabase();
     dbFuture.then((database) {
       Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
@@ -164,6 +167,7 @@ void updateListView() {
           this.notecount = noteList.length;
         });
       });
+      print(notecount);
     });
   }
 }

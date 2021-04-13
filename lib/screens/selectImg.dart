@@ -73,7 +73,8 @@ class SelectIMGState extends State<SelectIMG> {
     final bytes = Base64Decoder().convert(audioContent, 0, audioContent.length);
     final dir = await getExternalStorageDirectory();
     final file = File('${dir.path}/Songs/$name.mp3');
-    updateAudio('${dir.path}/Songs/$name.mp3');
+   
+    //updateAudio(pathvar);
     await file.writeAsBytes(bytes);
   }
 
@@ -162,8 +163,10 @@ class SelectIMGState extends State<SelectIMG> {
         elevation: 4.0,
         child: Icon(Icons.audiotrack),
         onPressed: () async {
+          final dir = await getExternalStorageDirectory();
           final text = _extractText;
           final name = _filename.text;
+           note.audioPath = '${dir.path}/Songs/$name.mp3';
           if (text.length == 0 || _selectedVoice == null) return;
           synthesizeText(text, name);
           insertingNote();
@@ -190,6 +193,6 @@ class SelectIMGState extends State<SelectIMG> {
   }
 
   insertingNote() async {
-     await helper.insertNote(note);
+    await helper.insertNote(note);
   }
 }

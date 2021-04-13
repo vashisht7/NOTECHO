@@ -57,8 +57,8 @@ class _PlayingPageState extends State<PlayingPage> {
     setState(() {
       index = widget.index;
     });
-    pathtofile = File(
-        '${widget.dirr.path}/${p.basename(widget.songs[widget.index].toString()).split('.')[0]}.mp3');
+    print(widget.songs[widget.index].audioPath);
+    pathtofile = File(widget.songs[widget.index].audioPath);
     _play(pathtofile);
   }
 
@@ -83,7 +83,7 @@ class _PlayingPageState extends State<PlayingPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             // Add one stop for each color. Stops should increase from 0 to 1
-            colors: [Color(0xFFFFFFFF), Color(0xFFFF9800)],
+            colors: [Color(0xFFFFFFFF), Colors.amber],
           ),
         ),
         child: Center(
@@ -94,36 +94,57 @@ class _PlayingPageState extends State<PlayingPage> {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 100.0,
+                  height: 40.0,
                 ),
-                Material(
-                  elevation: 10.0,
-                  child: Image.asset(
-                    'assets/color.jpeg',
-                    height: MediaQuery.of(context).size.height * 0.4,
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
                     width: MediaQuery.of(context).size.width * 0.9,
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image:
+                                FileImage(File(widget.songs[index].imagePath)),
+                            fit: BoxFit.fitHeight))),
                 SizedBox(
-                  height: 100.0,
+                  height: 30.0,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Intro',
+                    SizedBox(width: 20.0,),
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.only(right: 13.0),
+                        child: Text(
+                          widget.songs[index].description,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontSize: 25.0, fontWeight: FontWeight.w700),
+                            fontSize: 16.0,
+                            fontFamily: 'Roboto',
+                            color: Color(0xFF212121),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Text(
-                          'J. Cole',
-                          style: TextStyle(fontSize: 19.0, color: Colors.grey),
-                        ),
-                      ],
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Slider(
+                        activeColor: Colors.black,
+                        inactiveColor: Colors.grey,
+                        value: _position.inSeconds.toDouble(),
+                        max: _duration.inSeconds.toDouble(),
+                        onChanged: (double value) {
+                          setState(() {
+                            seekToSeconds(value.toInt());
+                            value = value;
+                          });
+                        },
+                      ),
+                      flex: 3,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -137,18 +158,6 @@ class _PlayingPageState extends State<PlayingPage> {
                       ),
                     ),
                   ],
-                ),
-                Slider(
-                  activeColor: Colors.black,
-                  inactiveColor: Colors.grey,
-                  value: _position.inSeconds.toDouble(),
-                  max: _duration.inSeconds.toDouble(),
-                  onChanged: (double value) {
-                    setState(() {
-                      seekToSeconds(value.toInt());
-                      value = value;
-                    });
-                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,12 +179,13 @@ class _PlayingPageState extends State<PlayingPage> {
                     Icon(Icons.shuffle),
                     GestureDetector(
                       onTap: () {
+                        print(widget.songs[widget.index].audioPath);
                         if (index - 1 >= 0) {
                           setState(() {
                             index = index - 1;
                           });
-                          pathtofile = File(
-                              '${widget.dirr.path}/${p.basename(widget.songs[index].toString()).split('.')[0]}.mp3');
+                          pathtofile =
+                              File(widget.songs[widget.index].audioPath);
                           _play(pathtofile);
                         }
                       },
@@ -214,8 +224,8 @@ class _PlayingPageState extends State<PlayingPage> {
                             index = index + 1;
                           });
                           print(index);
-                          pathtofile = File(
-                              '${widget.dirr.path}/${p.basename(widget.songs[index].toString()).split('.')[0]}.mp3');
+                          pathtofile =
+                              File(widget.songs[widget.index].audioPath);
                           _play(pathtofile);
                         }
                       },
@@ -270,8 +280,7 @@ class _PlayingPageState extends State<PlayingPage> {
                 fontSize: 16.0,
               ),
             ),
-            Text('Playing    ' +
-                p.basename(widget.songs[widget.index].toString()).split('.')[0])
+            Text('Playing    ' + widget.songs[widget.index].title)
           ],
         ),
         backgroundColor: Color(0xff3E4852),

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
  
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'AUOTODIDACT',
+      title: 'NOTECHO',
       debugShowCheckedModeBanner: false,
       home: initScreen==0 ||initScreen==null? OnBoard():Menu(child: MyHomePage(title: 'notecho',),) ,
     );
